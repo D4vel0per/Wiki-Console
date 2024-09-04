@@ -1,11 +1,9 @@
-import subprocess
 import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from handleResultsPage import handle_results_page
-from models import User
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 import asyncio
 from ask_funcs import ask_for_p, ask_s_n
 
@@ -23,8 +21,6 @@ def get_soup(driver):
     return BeautifulSoup(driver.page_source, "html.parser")
 
 async def search_for(driver, fetch_url, searchStr):
-    
-    print("SEARCH_FOR")
     driver.get(fetch_url)
     soup = get_soup(driver)
     element1 = driver.find_element(By.CSS_SELECTOR, '#searchText [name="search"]')
@@ -52,9 +48,8 @@ async def search_for(driver, fetch_url, searchStr):
         ask_for_p(all_ps)
 
     return driver
-    
 
-async def search(driver, search_count):
+async def search(driver):
     driver.minimize_window()
     print("Getting response...")
     fetch_url = "https://es.wikipedia.org/w/index.php?search=&title=Especial:Buscar"
@@ -70,10 +65,6 @@ async def search(driver, search_count):
     print("/" * 75)
     print("FINISHED.")
     driver.quit()
-    return "OK!"
-
-def review_data_get():
-    pass
 
 async def start(wait):
     await asyncio.sleep(wait)
@@ -81,15 +72,14 @@ async def start(wait):
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
     driver = webdriver.Remote(
-        options=options,
-        command_executor="http://192.168.0.106:4444"
+        options=options
     )
-    await search(driver, 0)
+    await search(driver)
 
 async def run_server():
     os.chdir(r"C:\Users\Omar David\adireviews\SeleniumGrid")
     print("STARTING SERVER...")
-    process = await asyncio.create_subprocess_shell(
+    await asyncio.create_subprocess_shell(
         'java -jar selenium-server-4.23.1.jar standalone', 
         stdout=asyncio.subprocess.DEVNULL,
         stderr=asyncio.subprocess.DEVNULL
@@ -112,7 +102,6 @@ async def main():
         ans = ask_s_n("An exception has occurred at main(), wanna see exception?", 5)
         if (ans): raise e
         else: print("OK!")
-
     
     
 if __name__ == "__main__":
