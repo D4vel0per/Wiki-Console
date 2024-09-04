@@ -7,25 +7,10 @@ def find_href(li):
         return ""
     else:
         return tag.findChildren()[0].get("href")
-    
-#def deleteChildren(parent: Tag, tag_names: list):
-#    for child in parent.findChildren():
-#        if (child.name in tag_names):
-#            child.extract()
-#        elif (hasattr(child, "find_all") and len(child.find_all()) > 0):
-#            child = deleteChildren(child, tag_names)
-#
-#    if (parent.name == "blockquote"):
-#        div_quote = parent.find("div", attrs={"class": "quote"})
-#        div_quote.string.replace_with(f"«{div_quote.string}»")
-
-#    return parent
 
 def string_mrow (mrow_tag):
     elements = tuple(filter(lambda x: x.get_text().strip(), mrow_tag.contents))
     results = ""
-    #print("INSIDE ", mrow_tag.name)
-    #print("children: ", elements)
     for element in elements:
         if element.name == "mrow" or element.name == "mstyle":
             results += string_mrow(element)
@@ -33,9 +18,6 @@ def string_mrow (mrow_tag):
             results += f"√({string_mrow(element)})"
         else:
             results += element.get_text()
-        #print(element.name + " -> " + results)
-
-    #print("OUTSIDE ", mrow_tag.name)
 
     return results
 
@@ -67,18 +49,13 @@ def deleteChildren(parent: Tag, tag_names: list):
         div_quote.string = f"«{text}»"
 
     elif (parent.name == "math" and parent.find("mrow")):
-        print("HANDLING MATH")
         math_parsed = ""
         if (parent.get("alttext")):
             math_parsed = from_alt_to_txt(parent.get("alttext"))
 
-        
-
         mrow = parent.find("mrow")
 
-        #print("string_mrow monitor: ")
         math_text = string_mrow(mrow)
-        #math_text = str(mrow).replace("<msqrt>", "<mi>√(</mi>").replace("</msqrt>", "<mi>)</mi>")
         
         for child in parent.findChildren():
             child.extract()

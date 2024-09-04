@@ -349,7 +349,6 @@ def changeStruct(old_structure, new_structure, string):
         print("BOTH STRUCTURES SHOULD HAVE THE SAME NUMBER OF -VAR PLACES")
 
     regex = ".+?".join(old_structure)
-    #before_r = ".+?".join(new_structure)
 
     matches = re.findall(regex, string)
 
@@ -489,31 +488,12 @@ tests = [
     r"{\displaystyle {\begin{aligned}{\frac {d}{dt}}\langle p\rangle =&\int \Phi ^{*}V(x,t)\nabla \Phi ~dx^{3}-\int \Phi ^{*}(\nabla V(x,t))\Phi ~dx^{3}-\int \Phi ^{*}V(x,t)\nabla \Phi ~dx^{3}\\{}=&\;0-\int \Phi ^{*}(\nabla V(x,t))\Phi ~dx^{3}-0\\{}=&\;\langle -\nabla V(x,t)\rangle =\langle F\rangle ,\end{aligned}}}",
 ]
 
-#test = tests[-1]
-#result = from_alt_to_txt(test)
-#print("FROM: " + test)
-#print("TO: " + result + "\n")
-
 def run_tests(ts):
     for t in ts:
         result = from_alt_to_txt(t)
         print("FROM: " + t)
         print("TO: " + result + "\n")
 
-#run_tests(tests)
-
-
-'''
-
-±
-§
-÷
-°
-Ø
-ƒ
-
-
-'''
 
 #SEGUIR AGREGANDO MÁS SÍMBOLOS CONFORME SEA NECESARIO
 #AGREGAR SOPORTE EN CASO DE QUE NO EXISTA UN "ALTTEXT" (usando BeautifulSoup)

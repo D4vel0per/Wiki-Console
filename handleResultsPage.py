@@ -23,7 +23,6 @@ async def handle_results_page (driver, selector, soup, desam_selector):
     )[which_one]
             
     print("Este es el link! -> " + href)
-
     
     link = driver.find_element(
         By.CSS_SELECTOR,
