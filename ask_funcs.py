@@ -1,4 +1,3 @@
-from functools import reduce
 from utilities import deleteChildren
 import re
 
@@ -6,17 +5,12 @@ def ask_s_n(string, limit):
     for i in range(limit):
         q = input("\n" + string + " S/N: ")
         correct = re.search("^[SNsn]{1} *$", q)
-        ig_caps = lambda str1, str2: True if re.search(str1, str2, flags=re.IGNORECASE) else False
 
-        if correct and ig_caps("S", correct.group()[0]):
-            return True
-        elif correct:
-            return False
+        if correct:
+            return correct.group()[0][0].upper() == "S"
         else:
             if (i == limit): return None
             print("Introduzca una de las dos opciones, le quedan " + str(limit - i - 1) + " intentos.")
-            continue
-
 
 def ask_for_p(paragraph_list):
     paragraph_list = [deleteChildren(x, ["sup", "style", "annotation"]) for x in paragraph_list]
@@ -54,7 +48,7 @@ def ask_for_p(paragraph_list):
             break
 
 
-async def ask(str, limit, no_links=None):
+async def ask(str, limit, no_links:filter=None):
     if (no_links is None): no_links = []
     which_one = input(str)
     restart = lambda: ask(str, limit, no_links)

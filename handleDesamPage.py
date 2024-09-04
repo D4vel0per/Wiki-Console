@@ -6,13 +6,13 @@ async def handle_desam_page(driver, base_url, soup):
     print("Se obtuvieron varios resultados con un título similar:")
     querySelector = '[class="rellink noprint mw-disambig-page hatnote"]+p+ul li'
     
-    li_list = tuple(soup.select(querySelector))
+    li_list = soup.select(querySelector)
     links = tuple(map(lambda x: base_url + find_href(x), li_list))
 
     check = lambda x: x == base_url
 
     no_links = [ i if check(links[i]) else -1 for i in range(len(links)) ]
-    no_links = tuple(filter(lambda i: i != -1, no_links))
+    no_links = filter(lambda i: i != -1, no_links)
 
     tag_texts = tuple(map(
         lambda li: tuple(li.children)[0].string + tuple(li.children)[1],
