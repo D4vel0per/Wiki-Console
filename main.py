@@ -66,25 +66,6 @@ async def search(driver, search_count):
         search_again = ask_s_n("¿Quiere buscar algún otro tema? ->", 5)
         if (not search_again):
             break
-        
-
-    '''
-    element1 = driver.find_element(By.CSS_SELECTOR, '#searchText [name="search"]')
-    element1.click()
-    element1.send_keys(user_search, Keys.ENTER)
-        
-    desam_selector = 'span.mw-disambig-icon'
-    results_selector = 'li.mw-search-result.mw-search-result-ns-0 a'
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-            
-    if (soup.select_one(results_selector) is not None):
-        await handle_results_page(driver, results_selector, soup, desam_selector)
-        search_again = ask_s_n("¿Quiere buscar algún otro tema? ->")
-        if (search_again):
-            await search_for(driver, user_search)
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-    '''
-    print(driver.current_url)
     
     print("/" * 75)
     print("FINISHED.")
@@ -98,7 +79,7 @@ async def start(wait):
     await asyncio.sleep(wait)
     os.chdir(r"C:\Users\Omar David\adireviews")
     options = webdriver.ChromeOptions()
-    #options.add_argument('--headless')
+    options.add_argument('--headless')
     driver = webdriver.Remote(
         options=options,
         command_executor="http://192.168.0.106:4444"
